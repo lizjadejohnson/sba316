@@ -1,0 +1,81 @@
+.petContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.petName {
+  text-align: center;
+}
+
+.petHealthContainer {
+  border: solid blue;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.petHealthCounters,
+.petHealthTitles {
+  display: flex;
+  justify-content: space-around; /* Evenly spaces the flex items within the container */
+  text-align: center; /* Center-aligns the text */
+  width: 100%;
+}
+
+.hungerCounter,
+.sleepCounter,
+.moodCounter,
+.hungerTitle,
+.sleepTitle,
+.moodTitle {
+  width: 33%; /* Set each item to take up one-third of the container width */
+}
+
+button {
+  appearance: none;
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  border-radius: 6px;
+  box-shadow: rgba(27, 31, 35, 0.1) 0 1px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 6px 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.feedButton {
+  background-color: #2ea44fca;
+}
+
+.feedButton:hover {
+  background-color: #26813ed5;
+}
+
+.sleepButton {
+  background-color: #41a1e1d8;
+}
+
+.sleepButton:hover {
+  background-color: #334eafc0;
+}
+
+.playButton {
+  background-color: #ff438ba1;
+}
+
+.playButton:hover {
+  background-color: #ba277398;
+}
