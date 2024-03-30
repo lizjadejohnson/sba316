@@ -1,114 +1,148 @@
-// -----------------3/28/24 -----------------------------
-
-//Create a function that will merge two arrays and return the result as a new array
-
-const array1 = [1, 2, 3, 4, 5];
-const array2 = [6, 7, 8, 9, 10];
-
-const combineArrays = (array1, array2) => {
-  const newArray = array1.concat(array2);
-  return newArray;
-};
-
-console.log(combineArrays(array1, array2));
-
-//Create a function that converts a string to an array of characters
-
-const exampleString = "Hello Per Scholas!";
-
-const createStringArray = (string) => {
-  const stringArray = string.split("");
-  return stringArray;
-};
-
-console.log(createStringArray(exampleString));
-
-//BONUS Find the frequency of characters inside a string.
-//Return the result as an array of objects. Each object has 2 fields: character and number of occurrences.
-
-const findCharacterFrequencies = (string) => {
-  const stringArray = string.split("");
-  const charMap = {};
-  stringArray.forEach((letter) => {
-    if (!(letter in charMap)) {
-      // Corrected condition
-      charMap[letter] = 1; // Initialize the letter's count
-    } else {
-      charMap[letter] += 1; // Increment the letter's count
-    }
-  });
-  return charMap;
-};
-
-console.log(findCharacterFrequencies("Hello Per Scholas!"));
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-/////////////////////// ---HUMAN CLASS--- /////////////////////////
-class Human {
-  constructor(eyes = 2, ears = 2) {
-    this.organs = ["heart", "stomach", "liver", "kidneys", "lungs"];
-    this.eyes = eyes;
-    this.ears = ears;
-    this.isAwake = true;
-    this.isEating = false;
-    this.isMoving = false;
-    this.isSpeaking = false;
+class Javagotchi {
+  constructor(neutral, hungry, tired, sad) {
+    this.neutral = neutral;
+    this.hungry = hungry;
+    this.tired = tired;
+    this.sad = sad;
+    this.isTired = false;
+    this.isHungry = false;
+    this.isHappy = true;
   }
 
   sleep() {
-    this.isAwake = false;
+    this.isTired = true;
   }
 
   eat() {
-    this.isEating = true;
+    this.isHungry = true;
   }
 
-  move() {
-    this.isMoving = true;
+  play() {
+    this.isHappy = false;
   }
 
-  speak(sound) {
-    this.isSpeaking = true;
-    console.log(sound); // Will print the sound passed to it when called
-    //console.log(`My name is ${person1.name}`);     This can't work because person1 is not initialized within Human
-  }
-}
+  displayASCII(state) {
+    // Get the element where you want to display the ASCII art
+    const petASCIIElem = document.querySelector(".petASCII");
 
-/////////////////////// ---HUMAN OBJECTS--- /////////////////////////
-//No real point to this:
-const human1 = new Human();
-const human2 = new Human();
-console.log(human1);
+    // Create a <pre> element to preserve formatting
+    const preElement = document.createElement("pre");
 
-/////////////////////// ---PERSON CLASS--- /////////////////////////
-class Person extends Human {
-  constructor(gender, age, name, nationality, occupation, eyes, ears) {
-    // Human constructor super:
-    super(eyes, ears);
+    // Set the ASCII art as the text content of the <pre> element
+    preElement.textContent = this[state];
 
-    // Person-specific properties
-    this.gender = gender;
-    this.age = age;
-    this.name = name;
-    this.nationality = nationality;
-    this.occupation = occupation;
+    // Append the <pre> element to the desired container
+    petASCIIElem.appendChild(preElement);
   }
 }
 
-/////////////////////// ---PERSON CLASS--- /////////////////////////
-const person1 = new Person(
-  "female",
-  28,
-  "Alice",
-  "Canadian",
-  "Software Developer"
-  //Notice that eyes and ears do not need to be passed as we are assuming it's 2 for each
+// Define ASCII arts for different cat states:
+const cat = {
+  neutral: `
+    /\\_____/\\
+   /  o   o  \\
+  ( ==  ^  == )    /\\
+   )         (    | |
+  (           )  / /
+ ( (  )   (  ) )/ /
+(__(__)___(__)__)/`,
+  hungry: `
+   /\\_____/\\
+  /  @   @  \\
+ ( == /\\/\\== )  /\\
+  )         (  / /
+ (           )  \\ \\
+( (  )   (  )  )/ /
+(__(__)___(__)__)/`,
+  tired: `
+    /\\_____/\\    SZ
+   /   _  _  \\  z
+  ( ==  o  == )
+   )         (
+  (           )      ,
+ ( (  )   (  ) )____/|
+(__(__)___(__)__)____/   `,
+  sad: `
+    /\\_____/\\
+   /  .T T.  \\
+  ( ==  ^  == )    -^-
+   )         (   / / \\ \\
+  (           ) | |   \\/
+ ( (  )   (  ) )/ /
+(__(__)___(__)__)/`,
+};
+
+// Create a new Javagotchi instance
+const catJavagotchi = new Javagotchi(
+  cat.neutral,
+  cat.hungry,
+  cat.tired,
+  cat.sad
 );
 
-const person2 = new Person("male", 37, "Van Gogh", "Dutch", "Painter", 2, 1); //Well, this one's a little different...
-console.log(person2);
+// Define ASCII arts for different puppy states:
+const puppy = {
+  neutral: `
+      ^
+     / \\___
+    (    ^ \\___
+   /         _ O
+  /   (_____/
+ /_____/ U`,
+  hungry: `
+      ^
+     / \\__
+    (    @\\___
+   /         _ O
+  /   (_____/
+ /_____/ V`,
+  tired: `
+      ^        Z
+     / \\__  z
+    (   -- \\___
+   /         _ O
+  /   (_____/
+ /_____/ U`,
+  sad: `
+      ^
+     / \\__
+    (    T\\___
+   /  |       O
+  /   (_____/
+ /_____/ U`,
+};
 
-/////////////////////// --- CALLING FUNCTIONS--- /////////////////////////
-person1.speak("Hello, world!"); // Inherits and can use Human methods
-person1.speak(`My name is ${person1.name}`); //The human methods don't know about it, though.
+// Create a new Javagotchi instance for the puppy
+const puppyJavagotchi = new Javagotchi(
+  puppy.neutral,
+  puppy.hungry,
+  puppy.tired,
+  puppy.sad
+);
+
+// Display ASCII art for the puppyJavagotchi based on state
+puppyJavagotchi.displayASCII("neutral");
+
+///////////////////////////////////////////////////////////////////
+// Display ASCII art for catJavagotchi based on state
+catJavagotchi.displayASCII("tired");
+
+function getPetType() {
+  let userPet;
+  while (true) {
+    try {
+      userPet = prompt("Press 1 for cat and 2 for dog");
+      if (userPet !== "1" && userPet !== "2") {
+        throw new Error("You must enter 1 or 2!");
+      } else {
+        break; // Break the loop if user input is valid
+      }
+    } catch (error) {
+      console.error(`Error: ${error.message}`);
+    }
+  }
+  console.log(`User pet set to ${userPet === "1" ? "cat" : "dog"}.`);
+}
+
+// Call the function to run it
+getPetType();
