@@ -144,5 +144,61 @@ function getPetType() {
   console.log(`User pet set to ${userPet === "1" ? "cat" : "dog"}.`);
 }
 
-// Call the function to run it
-getPetType();
+function getPetName() {
+  let userPetName;
+  while (true) {
+    try {
+      userPetName = prompt("Enter your pet's name");
+      if (!userPetName.trim()) {
+        throw new Error("You must enter a name");
+      } else {
+        break; // Break the loop if user input is valid
+      }
+    } catch (error) {
+      console.error(`Error: ${error.message}`);
+    }
+  }
+  document.querySelector(".petName").textContent = userPetName;
+  console.log(`Name set to ${userPetName}.`);
+}
+
+// Initialize the percentages
+let hungryPercentage = 100;
+let tiredPercentage = 100;
+let happyPercentage = 100;
+
+// Function to update and display the percentages
+function updateCounters() {
+  document.querySelector(".hungerCounter").textContent = `${hungryPercentage}%`;
+  document.querySelector(".sleepCounter").textContent = `${tiredPercentage}%`;
+  document.querySelector(".moodCounter").textContent = `${happyPercentage}%`;
+}
+
+// Function to decrement the percentages
+function countdown() {
+  // Update the percentages
+  hungryPercentage -= 1;
+  tiredPercentage -= 1;
+  happyPercentage -= 1;
+
+  // Update and display the counters
+  updateCounters();
+
+  // Check if any percentage has reached 0
+  if (hungryPercentage < 0 || tiredPercentage < 0 || happyPercentage < 0) {
+    clearInterval(timer); // Stop the timer
+    console.log("Your pet is dead ☠️!"); // Notify the user their pet died
+  }
+}
+
+// Call the countdown function every 15 seconds
+const timer = setInterval(countdown, 15000);
+
+// Main Program:
+function main() {
+  getPetType();
+  getPetName();
+  countdown();
+}
+
+main();
