@@ -1,27 +1,22 @@
 class Javagotchi {
-  constructor(neutral, hungry, tired, sad) {
-    this.neutral = neutral;
-    this.hungry = hungry;
-    this.tired = tired;
-    this.sad = sad;
-    this.isTired = false;
-    this.isHungry = false;
-    this.isHappy = true;
+  constructor(neutral, hungry, tired, sad, dead) {
+    this.states = {
+      neutral: neutral,
+      hungry: hungry,
+      tired: tired,
+      sad: sad,
+      dead: dead,
+    };
+    this.currentState = "neutral";
+    this.displayASCII();
   }
 
-  sleep() {
-    this.isTired = true;
+  changeState(newState) {
+    this.currentState = newState;
+    this.displayASCII();
   }
 
-  eat() {
-    this.isHungry = true;
-  }
-
-  play() {
-    this.isHappy = false;
-  }
-
-  displayASCII(state) {
+  displayASCII() {
     // Get the element where you want to display the ASCII art
     const petASCIIElem = document.querySelector(".petASCII");
 
@@ -29,10 +24,22 @@ class Javagotchi {
     const preElement = document.createElement("pre");
 
     // Set the ASCII art as the text content of the <pre> element
-    preElement.textContent = this[state];
+    const asciiArt = this.states[this.currentState];
+    preElement.textContent = asciiArt;
+
+    // Clear previous ASCII art
+    petASCIIElem.innerHTML = "";
 
     // Append the <pre> element to the desired container
     petASCIIElem.appendChild(preElement);
+
+    // If the pet is dead, set a specific class to style the ASCII art:
+    if (this.currentState === "dead") {
+      petASCIIElem.classList.add("dead");
+    } else {
+      // Remove the dead class if it's not dead
+      petASCIIElem.classList.remove("dead");
+    }
   }
 }
 
@@ -70,6 +77,18 @@ const cat = {
   (           ) | |   \\/
  ( (  )   (  ) )/ /
 (__(__)___(__)__)/`,
+
+  dead: `
+_________________________
+|\\ _____________________ /|
+| |_____________________| |
+|/_______________________\\|
+/=========================\\
+'==========================='
+| ~~  -|- GOODBYE  -|- ~~ |
+|      |   WORLD    |     |
+|_________________________|
+`,
 };
 
 // Create a new Javagotchi instance
@@ -77,11 +96,12 @@ const catJavagotchi = new Javagotchi(
   cat.neutral,
   cat.hungry,
   cat.tired,
-  cat.sad
+  cat.sad,
+  cat.dead
 );
 
 // Define ASCII arts for different puppy states:
-const puppy = {
+const dog = {
   neutral: `
       ^
      / \\___
@@ -107,42 +127,52 @@ const puppy = {
       ^
      / \\__
     (    T\\___
-   /  |       O
+   /  |  ,    O
   /   (_____/
  /_____/ U`,
+
+  dead: `
+_________________________
+|\\ _____________________ /|
+| |_____________________| |
+|/_______________________\\|
+/=========================\\
+'==========================='
+| ~~  -|- GOODBYE  -|- ~~ |
+|      |   WORLD    |     |
+|_________________________|
+`,
 };
 
-// Create a new Javagotchi instance for the puppy
-const puppyJavagotchi = new Javagotchi(
-  puppy.neutral,
-  puppy.hungry,
-  puppy.tired,
-  puppy.sad
+// Create a new Javagotchi instance for the dog
+const dogJavagotchi = new Javagotchi(
+  dog.neutral,
+  dog.hungry,
+  dog.tired,
+  dog.sad,
+  dog.dead
 );
 
 /////////////////////////////////////////
 
-function getPetType() {
-  let userPet;
+// Initialize userPet variable globally
+let userPet;
+
+// Function to set and get the pet type
+function getAndSetPetType() {
   while (true) {
     try {
       userPet = prompt("Press 1 for cat and 2 for dog");
       if (userPet !== "1" && userPet !== "2") {
         throw new Error("You must enter 1 or 2!");
       } else {
+        console.log(`User pet set to ${userPet === "1" ? "cat" : "dog"}.`);
         break; // Break the loop if user input is valid
       }
     } catch (error) {
       console.error(`Error: ${error.message}`);
     }
   }
-  if (userPet === "1") {
-    // Display ASCII art for default state catJavagotchi to get started
-    catJavagotchi.displayASCII("neutral");
-  } else {
-    puppyJavagotchi.displayASCII("neutral");
-  }
-  console.log(`User pet set to ${userPet === "1" ? "cat" : "dog"}.`);
 }
 
 function getPetName() {
@@ -186,14 +216,42 @@ function countdown() {
   updateCounters();
 
   // Check if any percentage has reached 0
-  if (hungryPercentage < 0 || tiredPercentage < 0 || happyPercentage < 0) {
+  if (hungryPercentage <= 0 || tiredPercentage <= 0 || happyPercentage <= 0) {
     clearInterval(timer); // Stop the timer
+    if (userPet === "1") {
+      catJavagotchi.changeState("dead");
+    } else {
+      dogJavagotchi.changeState("dead");
+    }
     console.log("Your pet is dead ☠️!"); // Notify the user their pet died
+  } else {
+    // Display ASCII art based on current status
+    if (userPet === "1") {
+      if (hungryPercentage < 90) {
+        catJavagotchi.changeState("hungry");
+      } else if (tiredPercentage < 90) {
+        catJavagotchi.changeState("tired");
+      } else if (happyPercentage < 90) {
+        catJavagotchi.changeState("sad");
+      } else {
+        catJavagotchi.changeState("neutral");
+      }
+    } else {
+      if (hungryPercentage < 90) {
+        dogJavagotchi.changeState("hungry");
+      } else if (tiredPercentage < 90) {
+        dogJavagotchi.changeState("tired");
+      } else if (happyPercentage < 90) {
+        dogJavagotchi.changeState("sad");
+      } else {
+        dogJavagotchi.changeState("neutral");
+      }
+    }
   }
 }
 
-// Call the countdown function every few seconds, sort of calls itself...
-const timer = setInterval(countdown, 4000);
+// Call the countdown function every second, sort of calls itself...
+const timer = setInterval(countdown, 1000);
 
 //Feed Button
 const feedbtn = document.querySelector(".feedButton");
@@ -218,9 +276,8 @@ playbtn.addEventListener("click", (e) => {
 
 // Main Program:
 function main() {
-  getPetType();
+  getAndSetPetType();
   getPetName();
-  countdown();
 }
 
 main();

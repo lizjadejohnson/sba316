@@ -6,12 +6,33 @@
 
 .petName {
   text-align: center;
+  font-size: 2em;
 }
 
 .petHealthContainer {
-  border: solid blue;
+  border-radius: 10px 10px 10px 10px;
+  -webkit-border-radius: 10px 10px 10px 10px;
+  -moz-border-radius: 10px 10px 10px 10px;
+  border: 2px solid #000000;
+  box-shadow: 10px 10px 20px -7px rgba(0, 0, 0, 0.38);
+  -webkit-box-shadow: 10px 10px 20px -7px rgba(0, 0, 0, 0.38);
+  -moz-box-shadow: 10px 10px 20px -7px rgba(0, 0, 0, 0.38);
+  background: rgba(196, 209, 238, 0.53);
+  background: linear-gradient(90deg, rgba(196, 209, 238, 0.53) 0%, #f1f1f1 80%);
+  background: -webkit-linear-gradient(
+    90deg,
+    rgba(196, 209, 238, 0.53) 0%,
+    #f1f1f1 80%
+  );
+  background: -moz-linear-gradient(
+    90deg,
+    rgba(196, 209, 238, 0.53) 0%,
+    #f1f1f1 80%
+  );
   width: 80%;
   margin: 0 auto;
+  margin-top: 3%;
+  padding: 2%;
 }
 
 .petHealthCounters,
@@ -33,11 +54,18 @@
 
 .petASCII {
   margin-left: 3%;
+  padding: 5%;
+}
+
+.petASCII.dead {
+  color: red; /* Change color to red for the dead state */
+  font-weight: bold; /* Make it bold */
+  font-size: 16px; /* Adjust font size */
 }
 
 button {
   appearance: none;
-  border: 1px solid rgba(27, 31, 35, 0.15);
+  border: 1px solid rgba(55, 63, 70, 0.611);
   border-radius: 6px;
   box-shadow: rgba(27, 31, 35, 0.1) 0 1px 0;
   box-sizing: border-box;
