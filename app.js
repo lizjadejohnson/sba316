@@ -120,12 +120,7 @@ const puppyJavagotchi = new Javagotchi(
   puppy.sad
 );
 
-// Display ASCII art for the puppyJavagotchi based on state
-puppyJavagotchi.displayASCII("neutral");
-
-///////////////////////////////////////////////////////////////////
-// Display ASCII art for catJavagotchi based on state
-catJavagotchi.displayASCII("tired");
+/////////////////////////////////////////
 
 function getPetType() {
   let userPet;
@@ -140,6 +135,12 @@ function getPetType() {
     } catch (error) {
       console.error(`Error: ${error.message}`);
     }
+  }
+  if (userPet === "1") {
+    // Display ASCII art for default state catJavagotchi to get started
+    catJavagotchi.displayASCII("neutral");
+  } else {
+    puppyJavagotchi.displayASCII("neutral");
   }
   console.log(`User pet set to ${userPet === "1" ? "cat" : "dog"}.`);
 }
@@ -191,8 +192,29 @@ function countdown() {
   }
 }
 
-// Call the countdown function every 15 seconds
-const timer = setInterval(countdown, 15000);
+// Call the countdown function every few seconds, sort of calls itself...
+const timer = setInterval(countdown, 4000);
+
+//Feed Button
+const feedbtn = document.querySelector(".feedButton");
+feedbtn.addEventListener("click", (e) => {
+  hungryPercentage = Math.min(hungryPercentage + 5, 100); // Limit to maximum of 100%
+  updateCounters();
+});
+
+//Sleep Button
+const sleepbtn = document.querySelector(".sleepButton");
+sleepbtn.addEventListener("click", (e) => {
+  tiredPercentage = Math.min(tiredPercentage + 5, 100);
+  updateCounters();
+});
+
+//Play Button
+const playbtn = document.querySelector(".playButton");
+playbtn.addEventListener("click", (e) => {
+  happyPercentage = Math.min(happyPercentage + 5, 100);
+  updateCounters();
+});
 
 // Main Program:
 function main() {
