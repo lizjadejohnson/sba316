@@ -205,6 +205,28 @@ function updateCounters() {
   document.querySelector(".moodCounter").textContent = `${happyPercentage}%`;
 }
 
+// Function to show the custom death modal
+function showAlert() {
+  // Display the modal
+  const modal = document.getElementById("customAlertModal");
+  modal.style.display = "block";
+
+  // Get the <span> element that closes the modal
+  const span = document.getElementsByClassName("close-button")[0];
+
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function () {
+    modal.style.display = "none";
+  };
+
+  // Also close the modal if the user clicks anywhere outside of the modal
+  window.onclick = function (event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  };
+}
+
 // Function to decrement the percentages
 function countdown() {
   // Update the percentages
@@ -223,25 +245,25 @@ function countdown() {
     } else {
       dogJavagotchi.changeState("dead");
     }
-    console.log("Your pet is dead ☠️!"); // Notify the user their pet died
+    setTimeout(showAlert, 3000); // Delay showing the modal by 3 seconds
   } else {
     // Display ASCII art based on current status
     if (userPet === "1") {
-      if (hungryPercentage < 90) {
+      if (hungryPercentage < 75) {
         catJavagotchi.changeState("hungry");
-      } else if (tiredPercentage < 90) {
+      } else if (tiredPercentage < 75) {
         catJavagotchi.changeState("tired");
-      } else if (happyPercentage < 90) {
+      } else if (happyPercentage < 75) {
         catJavagotchi.changeState("sad");
       } else {
         catJavagotchi.changeState("neutral");
       }
     } else {
-      if (hungryPercentage < 90) {
+      if (hungryPercentage < 75) {
         dogJavagotchi.changeState("hungry");
-      } else if (tiredPercentage < 90) {
+      } else if (tiredPercentage < 75) {
         dogJavagotchi.changeState("tired");
-      } else if (happyPercentage < 90) {
+      } else if (happyPercentage < 75) {
         dogJavagotchi.changeState("sad");
       } else {
         dogJavagotchi.changeState("neutral");
@@ -251,7 +273,7 @@ function countdown() {
 }
 
 // Call the countdown function every second, sort of calls itself...
-const timer = setInterval(countdown, 1000);
+const timer = setInterval(countdown, 500);
 
 //Feed Button
 const feedbtn = document.querySelector(".feedButton");
